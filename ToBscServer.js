@@ -86,26 +86,33 @@ app.get('/getQuestion/:idNum', chatController.getQuestionById);
 app.get('/calculateSubEngByUser/:userID/:answers/(:softwareArr)/(:chemistryArr)/(:electronicArr)/(:medicalArr)/(:managementArr)/(:buildingArr)/(:machineArr)', chatController.calculateSubEng);
 
 //app.get('/getCrawler',crawlerController.getCrawler);
+app.get('/getAllColleges',
+     (req,res)=>{
+      crawlerController.getAllColleges().then(docs => res.json(docs));
+});
 
 app.get('/getCollegesData', crawlerController.getCollegesData);
 
 // Automatic Get Rates - (Scheduler - 6:30-AM)
 var getRatesRule = new schedule.RecurrenceRule();
-getRatesRule.hour = 00;
-getRatesRule.minute = 27; 
+getRatesRule.hour = 05;
+getRatesRule.minute = 00; 
 var i = schedule.scheduleJob(getRatesRule, function(){
     console.log('Automatic Schedule: Get Colleges Data Started !');
     crawlerController.getCollegesData();
 });
 
-
+app.get('/getAllDepartments',
+     (req,res)=>{
+      crawlerController.getAllDepartments().then(docs => res.json(docs));
+});
 // Schedule Routes (manual)
 app.get('/getDepartmentsData', crawlerController.getDepartmentsData);
 
 // Automatic Get Rates - (Scheduler - 6:30-AM)
 var getRatesRule = new schedule.RecurrenceRule();
-getRatesRule.hour = 23;
-getRatesRule.minute = 59; 
+getRatesRule.hour = 05;
+getRatesRule.minute = 00; 
 var i = schedule.scheduleJob(getRatesRule, function(){
     console.log('Automatic Schedule: Get Departments Data Started !');
     crawlerController.getDepartmentsData();
